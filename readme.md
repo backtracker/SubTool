@@ -18,7 +18,7 @@
 
 3.运行相应的应用程序
 
-![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/subtool.png)
+![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/subtool2.png)
 
 ### one more thing
 编程不易，如果觉得我的程序对您有用，请随意**打赏**。您的支持将鼓励我继续努力，不断对程序进行完善优化。
