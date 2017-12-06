@@ -11,6 +11,7 @@
 1.使用管理员身份运行setup.bat
 
 ![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/bat.png)
+
 2.在config.ini配置文件movie_root_dir中配置电影目录
 
 ![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/config.png)
