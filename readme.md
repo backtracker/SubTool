@@ -20,8 +20,5 @@
 
 ![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/subtool2.png)
 
-### one more thing
-编程不易，如果觉得我的程序对您有用，请随意**打赏**。您的支持将鼓励我继续努力，不断对程序进行完善优化。
-![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/wxpay2.jpg)
 
 
