@@ -295,6 +295,10 @@ def download_movie_sub(movie_object):
         elif ext in sub_file_suffixes_list:
             os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
 
+    # 记录已经下载过的电影
+    with open(db, 'a+', encoding='utf-8') as db_file:
+        db_file.write(movie_object.movie_search_keyword+'\n')
+
 
 # 下载该目录下所有电影的字幕
 def download_dir_sub(movie_root_dir):
@@ -306,9 +310,6 @@ def download_dir_sub(movie_root_dir):
     for i in range(len(un_download_sub_movie_list)):
         movie_object = un_download_sub_movie_list[i]
         download_movie_sub(movie_object)
-        # 记录已经下载过的电影
-        with open(db, 'a+', encoding='utf-8') as db_file:
-            db_file.write(movie_object.movie_search_keyword+'\n')
 
 
 if __name__ == "__main__":
