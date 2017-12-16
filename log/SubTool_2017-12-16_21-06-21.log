@@ -1,0 +1,105 @@
+INFO:SubTool:###########################################
+INFO:SubTool:   SubTool 电影字幕下载程序
+INFO:SubTool:   版本：   1.0
+INFO:SubTool:   作者：   backtracker              
+INFO:SubTool:   github： github.com/backtracker/SubTool  
+INFO:SubTool:   微博：   weibo.com/backtracker
+INFO:SubTool:###########################################
+INFO:SubTool:===========================================
+INFO:SubTool:开始遍历 sub_test 目录......
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：win7.iso
+INFO:SubTool:电影目录: sub_test
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：5.to.7.2014.LIMITED.1080p.BluRay.x264-USURY.mkv
+INFO:SubTool:电影目录: sub_test\5.to.7.2014.LIMITED.1080p.BluRay.x264-USURY
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：Architecture 101.iso
+INFO:SubTool:电影目录: sub_test\Architecture 101 2012 Blu-Ray 1080p AVC DTS-HDMA 2.0-TTG
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：Battle.of.Empires.Fetih.1453.2012.Bluray.iPad.720p.AAC.X264-CHDPAD.mkv
+INFO:SubTool:电影目录: sub_test\Battle.of.Empires.Fetih.1453.2012.Bluray.iPad.720p.AAC.X264-CHDPAD
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：1080.mkv
+INFO:SubTool:电影目录: sub_test\Paths.of.The.Soul.2015.4k&1080p.WEB-DL.x264.AAC-HQC
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影名称：教父.The.Godfather.1972.BluRay.1080p.x265.10bit.2Audio.MNHD-FRDS.mkv
+INFO:SubTool:电影目录: sub_test\教父合集.The.Godfather.Trilogy.1972-1990.BluRay.1080p.x265.10bit.MNHD-FRDS
+INFO:SubTool:===========================================
+INFO:SubTool:开始解析电影......
+INFO:SubTool:------------------------------------------
+INFO:SubTool:win7.iso 电影名称+年份解析失败......
+INFO:SubTool:使用目录：sub_test 进行解析......
+INFO:SubTool:sub_test 电影名称+年份解析失败
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影：5.to.7.2014.LIMITED.1080p.BluRay.x264-USURY.mkv 解析成功
+INFO:SubTool:搜索关键词：5 to 7 2014
+INFO:SubTool:------------------------------------------
+INFO:SubTool:Architecture 101.iso 电影名称+年份解析失败......
+INFO:SubTool:使用目录：Architecture 101 2012 Blu-Ray 1080p AVC DTS-HDMA 2.0-TTG 进行解析......
+INFO:SubTool:搜索关键词：Architecture 101 2012
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影：Battle.of.Empires.Fetih.1453.2012.Bluray.iPad.720p.AAC.X264-CHDPAD.mkv 解析成功
+INFO:SubTool:搜索关键词：Battle of Empires Fetih 1453 2012
+INFO:SubTool:------------------------------------------
+INFO:SubTool:1080.mkv 电影名称+年份解析失败......
+INFO:SubTool:使用目录：Paths.of.The.Soul.2015.4k&1080p.WEB-DL.x264.AAC-HQC 进行解析......
+INFO:SubTool:搜索关键词：Paths of The Soul 2015
+INFO:SubTool:------------------------------------------
+INFO:SubTool:电影：教父.The.Godfather.1972.BluRay.1080p.x265.10bit.2Audio.MNHD-FRDS.mkv 解析成功
+INFO:SubTool:搜索关键词：教父 The Godfather 1972
+INFO:SubTool:===========================================
+INFO:SubTool:===========================================
+INFO:SubTool:开始下载字幕......
+INFO:SubTool:------------------------------------------
+INFO:SubTool:5 to 7 2014 字幕下载......
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/56310.html
+INFO:SubTool:
+解压RAR：sub_test\5.to.7.2014.LIMITED.1080p.BluRay.x264-USURY/[zmk.tw]5.to.7.2014.limited.720p.bluray.x264-usury.rar
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/59717.html
+INFO:SubTool:解压ZIP：sub_test\5.to.7.2014.LIMITED.1080p.BluRay.x264-USURY/[zmk.tw]5.To.7.2014.720p.WEB-DL.DD5.1.H264-RARBG.zip
+INFO:SubTool:------------------------------------------
+INFO:SubTool:Architecture 101 2012 字幕下载......
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/64456.html
+INFO:SubTool:解压ZIP：sub_test\Architecture 101 2012 Blu-Ray 1080p AVC DTS-HDMA 2.0-TTG/[zmk.tw]%E3%80%90%E7%AE%80%E7%B9%81%E8%8B%B1%E5%AD%97%E5%B9%95%E3%80%91Architecture.101.2012.BluRay.720p.DTS.x264-CHD.zip
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/3143.html
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/2665.html
+INFO:SubTool:
+解压RAR：sub_test\Architecture 101 2012 Blu-Ray 1080p AVC DTS-HDMA 2.0-TTG/[zmk.tw]Architecture_101_2012_BluRay_720p_DTS_x264_CHD.rar
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/2136.html
+INFO:SubTool:------------------------------------------
+INFO:SubTool:Battle of Empires Fetih 1453 2012 字幕下载......
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/62975.html
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/2999.html
+INFO:SubTool:------------------------------------------
+INFO:SubTool:Paths of The Soul 2015 字幕下载......
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/90550.html
+INFO:SubTool:
+解压RAR：sub_test\Paths.of.The.Soul.2015.4k&1080p.WEB-DL.x264.AAC-HQC/[zmk.tw]Paths.Of.The.Soul.2015.LIMITED.SUBBED.DVDRip.x264-RedBlade-Zcc911.rar
+INFO:SubTool:------------------------------------------
+INFO:SubTool:教父 The Godfather 1972 字幕下载......
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/74069.html
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/64840.html
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/3365.html
+INFO:SubTool:
+解压RAR：sub_test\教父合集.The.Godfather.Trilogy.1972-1990.BluRay.1080p.x265.10bit.MNHD-FRDS/[zmk.tw]The.Godfather.Trilogy.BluRay.1080p.DTS.2Audio.x264-CHD.rar
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/2849.html
+INFO:SubTool:
+下载：http://www.zimuku.cn/detail/1727.html
+INFO:SubTool:
+sub_test 目录字幕下载完成，程序将在5s后退出......
+
+INFO:SubTool:###########################################
