@@ -17,7 +17,7 @@ import socket
 
 global db
 global base_url
-global movie_root_dir
+movie_root_dir_list = []
 movie_file_suffixes_list = []
 movie_exclude_file_list = []
 sub_file_suffixes_list = []
@@ -56,13 +56,13 @@ def print_author_info():
 
 # 读取配置文件
 def read_config():
-    global db, base_url, movie_root_dir, movie_file_suffixes_list, movie_exclude_file_list, sub_file_suffixes_list, movie_search_keyword_exclude_regex_list,default_timeout_second
+    global db, base_url,movie_root_dir_list, movie_file_suffixes_list, movie_exclude_file_list, sub_file_suffixes_list, movie_search_keyword_exclude_regex_list,default_timeout_second
     config = configparser.ConfigParser()
     try:
         config.read('config.ini', encoding="utf-8-sig")
         db = config.get("SubTool", "db")
         base_url = config.get("SubTool", "base_url")
-        movie_root_dir = config.get("SubTool", "movie_root_dir")
+        movie_root_dir_list = config.get("SubTool", "movie_root_dir_list").split('||')
         timeout_seconds = config.getint("SubTool", "timeout_seconds")
         socket.setdefaulttimeout(timeout_seconds)   # 设置超时时间
         movie_file_suffixes_list = config.get("SubTool", "movie_file_suffixes_list").split('||')
@@ -99,7 +99,6 @@ def is_need_exclude_movie(movie_file_name):
 
 # 得到电影名称和所在目录
 def walk_dir(movie_root_dir, topdown=True):
-    log.info("###########################################")
     log.info("===========================================")
     log.info(u"开始遍历 " + movie_root_dir + " 目录......")
     for root, dirs, files in os.walk(movie_root_dir, topdown):
@@ -299,27 +298,26 @@ def download_movie_sub(movie_object):
     with open(db, 'a+', encoding='utf-8') as db_file:
         db_file.write(movie_object.movie_search_keyword+'\n')
 
+if __name__ == "__main__":
+    print_author_info()
+    read_config()
+    for movie_root_dir in movie_root_dir_list:
+        if os.path.isdir(movie_root_dir):
+            walk_dir(movie_root_dir)    # 得到电影名称和电影目录
+        else:
+            log.info(movie_root_dir+u" 参数错误。请在config.ini中配置movie_root_dir_list中配置电影目录。")
+            time.sleep(5)
 
-# 下载该目录下所有电影的字幕
-def download_dir_sub(movie_root_dir):
-    walk_dir(movie_root_dir)    # 得到电影名称和电影目录
     parse_movie_list()  # 将电影名称解析成关键词
     get_un_download_sub_movie_list()
+
     log.info("===========================================")
     log.info(u"开始下载字幕......")
     for i in range(len(un_download_sub_movie_list)):
         movie_object = un_download_sub_movie_list[i]
         download_movie_sub(movie_object)
 
+    log.info("\n全部字幕下载完成，程序将在5s后退出......")
+    log.info("###########################################")
+    time.sleep(5)
 
-if __name__ == "__main__":
-    print_author_info()
-    read_config()
-    if os.path.isdir(movie_root_dir):
-        download_dir_sub(movie_root_dir)
-        log.info(u"\n"+movie_root_dir+" 目录字幕下载完成，程序将在5s后退出......\n")
-        log.info("###########################################")
-        time.sleep(5)
-    else:
-        log.info(u"参数错误。请在config.ini中配置movie_root_dir电影根目录。暂不支持多目录。")
-        time.sleep(5)
