@@ -241,6 +241,7 @@ def get_un_download_sub_movie_list():
 def download_movie_sub(movie_object):
     movie_search_keyword = movie_object.movie_search_keyword
     movie_dir = movie_object.dir
+    is_downloaded = False  # 字幕是否已经下载
 
     log.info("------------------------------------------")
     log.info(movie_search_keyword+u" 字幕下载......")
@@ -256,6 +257,7 @@ def download_movie_sub(movie_object):
         log.info(movie_search_keyword+u" 未找到字幕")
         return
 
+    # 遍历下载字幕
     for i in range(len(details)):
         log.info(u"\n下载："+base_url+details[i])
         try:
@@ -276,6 +278,9 @@ def download_movie_sub(movie_object):
             log.info(u"\n字幕下载失败!!!")
             continue
 
+        # 下载成功记录为True
+        is_downloaded = True
+
         name, ext = os.path.splitext(sub_file_name)
         is_zip = zipfile.is_zipfile(sub_file_name)
         is_rar = rarfile.is_rarfile(sub_file_name)
@@ -294,9 +299,10 @@ def download_movie_sub(movie_object):
         elif ext in sub_file_suffixes_list:
             os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
 
-    # 记录已经下载过的电影
-    with open(db, 'a+', encoding='utf-8') as db_file:
-        db_file.write(movie_object.movie_search_keyword+'\n')
+    # 如果有下载成功的记录，将已经下载过的电影记录到db中
+    if is_downloaded:
+        with open(db, 'a+', encoding='utf-8') as db_file:
+            db_file.write(movie_object.movie_search_keyword+'\n')
 
 if __name__ == "__main__":
     print_author_info()
