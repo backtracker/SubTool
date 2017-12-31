@@ -304,6 +304,16 @@ def download_movie_sub(movie_object):
         with open(db, 'a+', encoding='utf-8') as db_file:
             db_file.write(movie_object.movie_search_keyword+'\n')
 
+
+# 删除wget下载过程中的临时文件
+def del_tmp_files():
+    for root, dirs, files in os.walk(".", True):
+        for file_name in files:
+            name, ext = os.path.splitext(file_name)
+            if ext == ".tmp":
+                os.remove(file_name)
+
+
 if __name__ == "__main__":
     print_author_info()
     read_config()
@@ -323,6 +333,7 @@ if __name__ == "__main__":
         movie_object = un_download_sub_movie_list[i]
         download_movie_sub(movie_object)
 
+    del_tmp_files()
     log.info("\n全部字幕下载完成，程序将在5s后退出......")
     log.info("###########################################")
     time.sleep(5)
