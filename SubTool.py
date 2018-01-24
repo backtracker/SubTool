@@ -20,7 +20,6 @@ global base_url
 movie_root_dir_list = []
 movie_file_suffixes_list = []
 movie_exclude_file_list = []
-sub_file_suffixes_list = []
 movie_search_keyword_exclude_regex_list = []
 
 movie_list = []         # 遍历后得到的电影list
@@ -56,7 +55,7 @@ def print_author_info():
 
 # 读取配置文件
 def read_config():
-    global db, base_url,movie_root_dir_list, movie_file_suffixes_list, movie_exclude_file_list, sub_file_suffixes_list, movie_search_keyword_exclude_regex_list,default_timeout_second
+    global db, base_url,movie_root_dir_list, movie_file_suffixes_list, movie_exclude_file_list, movie_search_keyword_exclude_regex_list,default_timeout_second
     config = configparser.ConfigParser()
     try:
         config.read('config.ini', encoding="utf-8-sig")
@@ -67,7 +66,6 @@ def read_config():
         socket.setdefaulttimeout(timeout_seconds)   # 设置超时时间
         movie_file_suffixes_list = config.get("SubTool", "movie_file_suffixes_list").split('||')
         movie_exclude_file_list = config.get("SubTool", "movie_exclude_file_list").split('||')
-        sub_file_suffixes_list = config.get("SubTool", "sub_file_suffixes_list").split('||')
         movie_search_keyword_exclude_regex_list = config.get("SubTool", "movie_search_keyword_exclude_regex_list").split('||')
     except Exception as e:
         log.info(u"读取config.ini配置文件失败:"+e)
@@ -296,7 +294,7 @@ def download_movie_sub(movie_object):
                 os.remove(sub_file_name)
             except Exception:
                 log.info(u"解压rar失败")
-        elif ext in sub_file_suffixes_list:
+        else:
             os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
 
     # 如果有下载成功的记录，将已经下载过的电影记录到db中
