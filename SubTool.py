@@ -109,12 +109,12 @@ def walk_dir(movie_root_dir, topdown=True):
                     log.info(u"电影目录: "+root)
                     movie_list.append(Movie(file_name=file_name, dir=root, is_iso_dir=False, movie_search_keyword=None))
         for name in dirs:
-            # BDMV电影以根目录最后一个作为电影名称
+            # BDMV电影以根目录最后一个作为电影名称, BDMV目录作为字幕文件所在目录
             if name == "BDMV":
                 log.info("------------------------------------------")
                 log.info(u"蓝光原盘电影名称："+get_last_dir(root))
-                log.info(u"蓝光原盘电影目录："+root)
-                movie_list.append(Movie(file_name=get_last_dir(root), dir=root, is_iso_dir=True, movie_search_keyword=None))
+                log.info(u"蓝光原盘电影目录："+os.path.join(root, name))
+                movie_list.append(Movie(file_name=get_last_dir(root), dir=os.path.join(root, name), is_iso_dir=True, movie_search_keyword=None))
 
 
 # 根据电影名称解析出搜索关键词
