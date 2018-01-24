@@ -295,7 +295,10 @@ def download_movie_sub(movie_object):
             except Exception:
                 log.info(u"解压rar失败")
         else:
-            os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
+            try:
+                os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
+            except Exception:
+                pass
 
     # 如果有下载成功的记录，将已经下载过的电影记录到db中
     if is_downloaded:
