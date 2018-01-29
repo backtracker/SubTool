@@ -17,6 +17,7 @@ import socket
 
 global db
 global base_url
+global download_page_base_url
 movie_root_dir_list = []
 movie_file_suffixes_list = []
 movie_exclude_file_list = []
@@ -55,12 +56,13 @@ def print_author_info():
 
 # 读取配置文件
 def read_config():
-    global db, base_url,movie_root_dir_list, movie_file_suffixes_list, movie_exclude_file_list, movie_search_keyword_exclude_regex_list,default_timeout_second
+    global db, base_url, download_page_base_url, movie_root_dir_list, movie_file_suffixes_list, movie_exclude_file_list, movie_search_keyword_exclude_regex_list,default_timeout_second
     config = configparser.ConfigParser()
     try:
         config.read('config.ini', encoding="utf-8-sig")
         db = config.get("SubTool", "db")
         base_url = config.get("SubTool", "base_url")
+        download_page_base_url = config.get("SubTool", "download_page_base_url")
         movie_root_dir_list = config.get("SubTool", "movie_root_dir_list").split('||')
         timeout_seconds = config.getint("SubTool", "timeout_seconds")
         socket.setdefaulttimeout(timeout_seconds)   # 设置超时时间
@@ -179,7 +181,6 @@ def parse_movie_list():
 
 # 解压ZIP
 def un_zip(zip_file, dir_name):
-    log.info("解压ZIP："+zip_file)
     try:
         file = zipfile.ZipFile(zip_file, "r")
         for name in file.namelist():
@@ -201,7 +202,6 @@ def un_zip(zip_file, dir_name):
 
 # 解压rar
 def un_rar(rar_file, dir_name):
-    log.info(u"\n解压RAR："+rar_file)
     rar = rarfile.RarFile(rar_file)
     rar.extractall(path=dir_name)
 
@@ -243,62 +243,108 @@ def download_movie_sub(movie_object):
 
     log.info("------------------------------------------")
     log.info(movie_search_keyword+u" 字幕下载......")
+    # 字幕搜索页，得到一堆字幕信息页
     try:
         r = requests.get(base_url+'/search?q='+movie_search_keyword)
         html = etree.HTML(r.text)
-        details = html.xpath("//td[@class='first']/a/@href")        # 字幕文件所在的网页
+        sub_info_details = html.xpath("//td[@class='first']/a/@href")        # 得到字幕信息页
     except Exception :
         log.info(movie_search_keyword+u" 未找到字幕")
         return
 
-    if len(details) == 0:
+    if len(sub_info_details) == 0:
         log.info(movie_search_keyword+u" 未找到字幕")
         return
 
-    # 遍历下载字幕
-    for i in range(len(details)):
-        log.info(u"\n下载："+base_url+details[i])
+    # 遍历字幕信息页
+    for i in range(len(sub_info_details)):
+        # 访问字幕信息页，得到字幕下载页面
+        log.info(u"\n字幕信息页："+base_url+sub_info_details[i])
         try:
-            r = requests.get(base_url + details[i])
+            r = requests.get(base_url + sub_info_details[i])
         except Exception:
-            log.info(base_url+details[i]+u" http 请求失败")
+            log.info(base_url+sub_info_details[i]+u" 请求字幕信息页失败")
             continue
+
         try:
             html = etree.HTML(r.text)
-            download_short_path = html.xpath("//a[@id='down1']/@href")     # 字幕下载短地址
-            sub_download_url = base_url + download_short_path[0]
+            sub_download_page_short_path = html.xpath("//a[@id='down1']/@href")     # 字幕下载短地址
+            sub_download_page_url = "http:"+sub_download_page_short_path[0]
         except Exception:
-            log.info(base_url+details[i]+u" 获取字幕文件下载地址失败")
+            log.info(base_url+sub_info_details[i]+u" 获取字幕文件下载地址失败")
             continue
+
+        log.info(u"字幕下载页："+sub_download_page_url)
+        try:
+            r = requests.get(sub_download_page_url)
+        except Exception:
+            log.info(u"请求字幕下载页失败")
+            continue
+
+        try:
+            html = etree.HTML(r.text)
+            sub_download_url=html.xpath("//div[@class='down clearfix']/ul/li/a/@href")  # 字幕下载地址
+            sub_download_url = download_page_base_url+sub_download_url[0]
+        except Exception:
+            log.info(u"获取字幕下载地址失败")
+            continue
+
+        log.info("字幕下载地址："+sub_download_url)
+
         try:
             sub_file_name = wget.download(sub_download_url, movie_dir)
-        except Exception:
-            log.info(u"\n字幕下载失败!!!")
+        except Exception as e:
+            log.info(u"\n字幕下载失败！ "+str(e))
             continue
 
         # 下载成功记录为True
         is_downloaded = True
+
+        # 判断是否UrlDecode成功
+        is_url_decode_succeed = True
+        sub_file_name_url_decode = urllib.parse.unquote(sub_file_name)
+
+        if sub_file_name != sub_file_name_url_decode:
+            # 判断urldecode的文件名是否存在，如果不存在进行修改，如果存在则删除当前文件，跳出循环
+            if not os.path.exists(sub_file_name_url_decode):
+                try:
+                    os.rename(sub_file_name, sub_file_name_url_decode)    # 字幕文件UrlDecode
+                    is_url_decode_succeed = True
+                except Exception as e:
+                    log.info(sub_file_name+" UrlDecode失败。"+str(e))
+                    is_url_decode_succeed = False
+            else:
+                try:
+                    log.info("字幕文件已存在，删除多余文件："+sub_file_name_url_decode)
+                    os.remove(sub_file_name)
+                except Exception as e:
+                    log.info(str(e))
+                #字幕文件已经存在，跳出循环。这里没有判断是否是压缩包文件，因为压缩包每次运行完成后会删除，不存在重复的可能
+                continue
+
+        # 文件名称urldecode
+        if is_url_decode_succeed is True:
+            sub_file_name = sub_file_name_url_decode
+
+        log.info("字幕文件："+sub_file_name)
 
         name, ext = os.path.splitext(sub_file_name)
         is_zip = zipfile.is_zipfile(sub_file_name)
         is_rar = rarfile.is_rarfile(sub_file_name)
         if is_zip:
             try:
+                log.info("解压ZIP："+sub_file_name)
                 un_zip(sub_file_name, movie_dir)
                 os.remove(sub_file_name)        # 删除zip文件
-            except Exception:
-                log.info(u"解压zip失败")
+            except Exception as e:
+                log.info(u"解压ZIP失败。"+str(e))
         elif is_rar:
             try:
+                log.info(u"解压RAR："+sub_file_name)
                 un_rar(sub_file_name, movie_dir)
                 os.remove(sub_file_name)
-            except Exception:
-                log.info(u"解压rar失败")
-        else:
-            try:
-                os.rename(sub_file_name, urllib.parse.unquote(sub_file_name))    # 字幕文件UrlDecode
-            except Exception:
-                pass
+            except Exception as e:
+                log.info(u"解压RAR失败。"+str(e))
 
     # 如果有下载成功的记录，将已经下载过的电影记录到db中
     if is_downloaded:
@@ -322,7 +368,7 @@ if __name__ == "__main__":
         if os.path.isdir(movie_root_dir):
             walk_dir(movie_root_dir)    # 得到电影名称和电影目录
         else:
-            log.info(movie_root_dir+u" 参数错误。请在config.ini中配置movie_root_dir_list中配置电影目录。")
+            log.info(movie_root_dir+u" 参数错误。请在config.ini中配置movie_root_dir_list中配置电影目录。多目录中||隔开，中间不能有空格")
             time.sleep(5)
 
     parse_movie_list()  # 将电影名称解析成关键词

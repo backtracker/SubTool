@@ -12,7 +12,7 @@
 
 ![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/bat.png)
 
-2.在config.ini配置文件movie_root_dir中配置电影目录
+2.在config.ini配置文件movie_root_dir中配置电影目录，多个目录用||隔开
 
 ![image](https://raw.githubusercontent.com/backtracker/SubTool/master/image/config.png)
 
