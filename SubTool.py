@@ -326,7 +326,7 @@ def download_movie_sub(movie_object):
         if is_url_decode_succeed is True:
             sub_file_name = sub_file_name_url_decode
 
-        log.info("字幕文件："+sub_file_name)
+        log.info("\n字幕文件："+sub_file_name)
 
         name, ext = os.path.splitext(sub_file_name)
         is_zip = zipfile.is_zipfile(sub_file_name)
